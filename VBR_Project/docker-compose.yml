@@ -1,6 +1,7 @@
 version: "2.1"
 services:
-  rabbitmq:
+  rabbitmq_server:
+    container_name: rabbitmq_server
     image: rabbitmq:3.10.7-management
     hostname: rabbitmq
     restart: always
@@ -12,4 +13,35 @@ services:
       - ./rabbitmq:/var/lib/rabbitmq
     ports:
       - 15672:15672
-      - 5672:5672
+      - 7801:5672
+
+  # workspace:
+  #   build: .
+  #   volumes:
+  #     - ..:/workspace:cached
+
+  rmq_producer:
+    build:
+        context: ./rabbit_producer
+        dockerfile: Dockerfile
+    container_name: rmq_producer
+    depends_on:
+      - rabbitmq_server
+      - rmq_consumer
+
+    volumes:
+      - ./rabbit_producer/:/workspace/rabbit_producer/
+    ports:
+      - 7000:7000
+    # command: python ./rpc_producer.py
+    restart: always
+
+  rmq_consumer:
+    build:
+        context: ./rabbit_consumer
+        dockerfile: Dockerfile
+    container_name: rmq_consumer
+    depends_on:
+      - rabbitmq_server
+
+    # command: python ./rpc_consumer.py

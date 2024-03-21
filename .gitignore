@@ -1,3 +1,9 @@
-.devcontainer
-.erlang.cookie
-.cookie
+*.devcontainer
+*.erlang.cookie
+*.cookie
+*.o
+*.env
+*.log
+*.idea
+# cloud_env
+project_package/

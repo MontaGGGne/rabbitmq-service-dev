@@ -14,9 +14,10 @@ PORT = 7801
 USER = 'rmuser'
 PASSWORD = 'rmpassword'
 
-REPO_URL = 'https://dagshub.com/Dimitriy200/Data'
+REPO_URL = 'https://dagshub.com/Dimitriy200/diplom_autoencoder'
 TOKEN = 'a1482d904ec14cd6e61aa6fcc9df96278dc7c911'
-URL_PATH_STORAGE = 'https://dagshub.com/api/v1/repos/Dimitriy200/Data/raw/82fd8214a8769595e670f10ce0c135947bb6638e'
+# https://dagshub.com/Dimitriy200/diplom_autoencoder/src/main/data/raw
+URL_PATH_STORAGE = 'https://dagshub.com/api/v1/repos/Dimitriy200/diplom_autoencoder/raw/ee325159c4cd9c796be0ea038c9272b8dc10626d/data/raw/'
 
 EXCHANGE='dataset-reader'
 EXCHANGE_TYPE='topic'
@@ -57,6 +58,7 @@ def main():
     channel.basic_consume(queue=QUEUE_RESPONSE, on_message_callback=callback)
 
     fs = streaming.DagsHubFilesystem(".", repo_url=REPO_URL, token=TOKEN)
+    # https://dagshub.com/api/v1/repos/Dimitriy200/diplom_autoencoder/raw/ee325159c4cd9c796be0ea038c9272b8dc10626d/data/raw/test_FD001.csv
     csv_file_str = fs.http_get(os.path.join(URL_PATH_STORAGE, 'test_FD001.csv'))
     
     csv_as_list_of_dicts = []

@@ -5,10 +5,6 @@ PORT = 7801
 USER = 'rmuser'
 PASSWORD = 'rmpassword'
 
-REPO_URL = 'https://dagshub.com/Dimitriy200/Data'
-TOKEN = 'a1482d904ec14cd6e61aa6fcc9df96278dc7c911'
-URL_PATH_STORAGE = 'https://dagshub.com/api/v1/repos/Dimitriy200/Data/raw/82fd8214a8769595e670f10ce0c135947bb6638e'
-
 EXCHANGE='dataset-reader'
 EXCHANGE_TYPE='topic'
 QUEUE_REQUEST='dataset-reader-request'

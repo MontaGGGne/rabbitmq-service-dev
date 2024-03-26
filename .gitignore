@@ -3,7 +3,9 @@
 *.cookie
 *.o
 *.env
+*.venv
 *.log
 *.idea
 # cloud_env
 project_package/
+mnesia/

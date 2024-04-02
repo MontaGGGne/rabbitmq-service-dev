@@ -7,5 +7,4 @@
 *.log
 *.idea
 # cloud_env
-project_package/
 mnesia/

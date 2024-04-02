@@ -2,7 +2,6 @@ import sys
 import os
 from rmq_custom_pack import rpc_consumer
 
-
 HOST = 'localhost'
 PORT = 7801
 USER = 'rmuser'

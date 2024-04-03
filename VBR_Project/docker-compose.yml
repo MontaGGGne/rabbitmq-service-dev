@@ -6,9 +6,9 @@ services:
     hostname: rabbitmq
     restart: always
     environment:
-      - RABBITMQ_DEFAULT_USER=rmuser
-      - RABBITMQ_DEFAULT_PASS=rmpassword
-      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit log_levels [{connection,error},{default,error}] disk_free_limit 2147483648
+      - RABBITMQ_DEFAULT_USER='${RABBITMQ_DEFAULT_USER}'
+      - RABBITMQ_DEFAULT_PASS='${RABBITMQ_DEFAULT_PASS}'
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS='${RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS}'
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq
     ports:
@@ -27,6 +27,19 @@ services:
     container_name: rmq_producer_1
     environment:
       - PROD_NUM=1
+      - HOST='${HOST}'
+      - PORT='${PORT}'
+      - USER='${USER}'
+      - PASSWORD='${PASSWORD}'
+      - REPO_URL='${REPO_URL}'
+      - TOKEN='${TOKEN}'
+      - URL_PATH_STORAGE='${URL_PATH_STORAGE}'
+      - EXCHANGE='${EXCHANGE}'
+      - EXCHANGE_TYPE='${EXCHANGE_TYPE}'
+      - QUEUE_REQUEST='${QUEUE_REQUEST}'
+      - QUEUE_RESPONSE='${QUEUE_RESPONSE}'
+      - ROUTING_KEY_REQUEST='${ROUTING_KEY_REQUEST_PRODUCER}'
+      - ROUTING_KEY_RESPONSE='${ROUTING_KEY_RESPONSE_PRODUCER}'
     depends_on:
       - rabbitmq_server
       - rmq_consumer_1
@@ -46,13 +59,26 @@ services:
     container_name: rmq_producer_2
     environment:
       - PROD_NUM=2
+      - HOST='${HOST}'
+      - PORT='${PORT}'
+      - USER='${USER}'
+      - PASSWORD='${PASSWORD}'
+      - REPO_URL='${REPO_URL}'
+      - TOKEN='${TOKEN}'
+      - URL_PATH_STORAGE='${URL_PATH_STORAGE}'
+      - EXCHANGE='${EXCHANGE}'
+      - EXCHANGE_TYPE='${EXCHANGE_TYPE}'
+      - QUEUE_REQUEST='${QUEUE_REQUEST}'
+      - QUEUE_RESPONSE='${QUEUE_RESPONSE}'
+      - ROUTING_KEY_REQUEST='${ROUTING_KEY_REQUEST_PRODUCER}'
+      - ROUTING_KEY_RESPONSE='${ROUTING_KEY_RESPONSE_PRODUCER}'
     depends_on:
       - rabbitmq_server
       - rmq_consumer_1
       - rmq_consumer_2
 
     volumes:
-      - ./rabbit_producer/:/workspace/rabbit_producer/
+      - ./rabbit_producer/:/workspace/rabbit_producer_2/
     ports:
       - 7000:7000
     # command: python ./rpc_producer.py
@@ -65,6 +91,19 @@ services:
     container_name: rmq_producer_3
     environment:
       - PROD_NUM=3
+      - HOST='${HOST}'
+      - PORT='${PORT}'
+      - USER='${USER}'
+      - PASSWORD='${PASSWORD}'
+      - REPO_URL='${REPO_URL}'
+      - TOKEN='${TOKEN}'
+      - URL_PATH_STORAGE='${URL_PATH_STORAGE}'
+      - EXCHANGE='${EXCHANGE}'
+      - EXCHANGE_TYPE='${EXCHANGE_TYPE}'
+      - QUEUE_REQUEST='${QUEUE_REQUEST}'
+      - QUEUE_RESPONSE='${QUEUE_RESPONSE}'
+      - ROUTING_KEY_REQUEST='${ROUTING_KEY_REQUEST_PRODUCER}'
+      - ROUTING_KEY_RESPONSE='${ROUTING_KEY_RESPONSE_PRODUCER}'
     depends_on:
       - rabbitmq_server
       - rmq_consumer_1
@@ -82,6 +121,21 @@ services:
         context: ./rabbit_consumer
         dockerfile: Dockerfile
     container_name: rmq_consumer_1
+    environment:
+      - PROD_NUM=3
+      - HOST='${HOST}'
+      - PORT='${PORT}'
+      - USER='${USER}'
+      - PASSWORD='${PASSWORD}'
+      - REPO_URL='${REPO_URL}'
+      - TOKEN='${TOKEN}'
+      - URL_PATH_STORAGE='${URL_PATH_STORAGE}'
+      - EXCHANGE='${EXCHANGE}'
+      - EXCHANGE_TYPE='${EXCHANGE_TYPE}'
+      - QUEUE_REQUEST='${QUEUE_REQUEST}'
+      - QUEUE_RESPONSE='${QUEUE_RESPONSE}'
+      - ROUTING_KEY_REQUEST='${ROUTING_KEY_REQUEST_CONSUMER}'
+      - ROUTING_KEY_RESPONSE='${ROUTING_KEY_RESPONSE_CONSUMER}'
     depends_on:
       - rabbitmq_server
 
@@ -90,6 +144,21 @@ services:
         context: ./rabbit_consumer
         dockerfile: Dockerfile
     container_name: rmq_consumer_2
+    environment:
+      - PROD_NUM=3
+      - HOST='${HOST}'
+      - PORT='${PORT}'
+      - USER='${USER}'
+      - PASSWORD='${PASSWORD}'
+      - REPO_URL='${REPO_URL}'
+      - TOKEN='${TOKEN}'
+      - URL_PATH_STORAGE='${URL_PATH_STORAGE}'
+      - EXCHANGE='${EXCHANGE}'
+      - EXCHANGE_TYPE='${EXCHANGE_TYPE}'
+      - QUEUE_REQUEST='${QUEUE_REQUEST}'
+      - QUEUE_RESPONSE='${QUEUE_RESPONSE}'
+      - ROUTING_KEY_REQUEST='${ROUTING_KEY_REQUEST_CONSUMER}'
+      - ROUTING_KEY_RESPONSE='${ROUTING_KEY_RESPONSE_CONSUMER}'
     depends_on:
       - rabbitmq_server
 

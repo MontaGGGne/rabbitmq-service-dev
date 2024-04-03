@@ -6,5 +6,9 @@
 *.venv
 *.log
 *.idea
-# cloud_env
+*.github
+*.vscode
+rabbitmq/
 mnesia/
+# cloud_env
+

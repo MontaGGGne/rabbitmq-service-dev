@@ -22,8 +22,8 @@ services:
 
   rmq_producer_1:
     build:
-        context: ./rabbit_producer
-        dockerfile: Dockerfile
+        context: .
+        dockerfile: ./Dockerfile
     container_name: rmq_producer_1
     environment:
       - PROD_NUM=1
@@ -46,7 +46,7 @@ services:
       - rmq_consumer_2
 
     volumes:
-      - ./rabbit_producer/:/workspace/rabbit_producer/
+      - ./rabbit_producer/:/workspace/rabbit_producer_1/
     ports:
       - 7000:7000
     # command: python ./rpc_producer.py
@@ -54,8 +54,8 @@ services:
 
   rmq_producer_2:
     build:
-        context: ./rabbit_producer
-        dockerfile: Dockerfile
+        context: .
+        dockerfile: ./Dockerfile
     container_name: rmq_producer_2
     environment:
       - PROD_NUM=2
@@ -86,8 +86,8 @@ services:
 
   rmq_producer_3:
     build:
-        context: ./rabbit_producer
-        dockerfile: Dockerfile
+        context: .
+        dockerfile: ./Dockerfile
     container_name: rmq_producer_3
     environment:
       - PROD_NUM=3
@@ -110,7 +110,7 @@ services:
       - rmq_consumer_2
 
     volumes:
-      - ./rabbit_producer/:/workspace/rabbit_producer/
+      - ./rabbit_producer/:/workspace/rabbit_producer_3/
     ports:
       - 7000:7000
     # command: python ./rpc_producer.py
@@ -118,8 +118,8 @@ services:
 
   rmq_consumer_1:
     build:
-        context: ./rabbit_consumer
-        dockerfile: Dockerfile
+        context: .
+        dockerfile: ./Dockerfile
     container_name: rmq_consumer_1
     environment:
       - PROD_NUM=3
@@ -138,11 +138,13 @@ services:
       - ROUTING_KEY_RESPONSE='${ROUTING_KEY_RESPONSE_CONSUMER}'
     depends_on:
       - rabbitmq_server
+    volumes:
+      - ./rabbit_consumer/:/workspace/rabbit_consumer_1/
 
   rmq_consumer_2:
     build:
-        context: ./rabbit_consumer
-        dockerfile: Dockerfile
+        context: .
+        dockerfile: ./Dockerfile
     container_name: rmq_consumer_2
     environment:
       - PROD_NUM=3
@@ -161,5 +163,7 @@ services:
       - ROUTING_KEY_RESPONSE='${ROUTING_KEY_RESPONSE_CONSUMER}'
     depends_on:
       - rabbitmq_server
+    volumes:
+      - ./rabbit_consumer/:/workspace/rabbit_consumer_2/
 
-    # command: python ./rpc_consumer.py
+    # command: python /workspace/rabbit_consumer_2/rpc_consumer.py

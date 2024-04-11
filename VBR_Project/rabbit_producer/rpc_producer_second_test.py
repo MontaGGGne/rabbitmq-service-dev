@@ -1,4 +1,4 @@
-import sys, os, pika, json, logger
+import sys, os, pika, json
 import pandas as pd
 import time
 import boto3
@@ -61,25 +61,24 @@ def main():
     # https://dagshub.com/api/v1/repos/Dimitriy200/diplom_autoencoder/raw/ee325159c4cd9c796be0ea038c9272b8dc10626d/data/raw/test_FD001.csv
     csv_file_str = fs.http_get(os.path.join(URL_PATH_STORAGE, 'test_FD001.csv'))
     
-    csv_as_list_of_dicts = []
-    columns_names = []  
-    list_csv = []
+    
+    
     list_csv = csv_file_str.text.split('\n')
     columns_names = list_csv[0].split(',')
+    data_list = []
     list_csv.pop(0)
-    for data_line in list_csv:
+    for data_id, data_line in enumerate(list_csv):
         if data_line is None or data_line == '':
             continue
-        dict_from_line_in_csv = {}
-        data_list = data_line.split(',')
-        for col_id, col_name in enumerate(columns_names):
-            dict_from_line_in_csv[col_name] = data_list[col_id]
-            
-            channel.basic_publish(exchange=EXCHANGE,
-                                  routing_key=ROUTING_KEY_REQUEST,
-                                  body=json.dumps(dict_from_line_in_csv))
-            
-        csv_as_list_of_dicts.append(dict_from_line_in_csv)
+        data_line_list_of_dicts = []
+        data_list.append(data_line.split(','))
+        data_line_list_of_dicts = [{col_name: float(col_val)} for col_name, col_val in zip(columns_names, data_line.split(','))]
+        data_line_list_of_dicts.append({'prod_num': PROD_NUM})
+        body=json.dumps({data_id: data_line_list_of_dicts})
+
+        channel.basic_publish(exchange=EXCHANGE,
+                                routing_key=ROUTING_KEY_REQUEST,
+                                body=json.dumps({data_id: data_line_list_of_dicts}))
     
     connection.process_data_events(time_limit=None)
 

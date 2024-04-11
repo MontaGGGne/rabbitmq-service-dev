@@ -2,17 +2,17 @@ import sys
 import os
 from rmq_custom_pack import rpc_consumer
 
-HOST = 'localhost'
-PORT = 7801
-USER = 'rmuser'
-PASSWORD = 'rmpassword'
+HOST=os.getenv('HOST')
+PORT=os.getenv('PORT')
+USER=os.getenv('USER')
+PASSWORD=os.getenv('PASSWORD')
 
-EXCHANGE='dataset-reader'
-EXCHANGE_TYPE='topic'
-QUEUE_REQUEST='dataset-reader-request'
-QUEUE_RESPONSE='dataset-reader-response'
-ROUTING_KEY_REQUEST='request.*'
-ROUTING_KEY_RESPONSE='response.*'
+EXCHANGE=os.getenv('EXCHANGE')
+EXCHANGE_TYPE=os.getenv('EXCHANGE_TYPE')
+QUEUE_REQUEST=os.getenv('QUEUE_REQUEST')
+QUEUE_RESPONSE=os.getenv('QUEUE_RESPONSE')
+ROUTING_KEY_REQUEST=os.getenv('ROUTING_KEY_REQUEST')
+ROUTING_KEY_RESPONSE=os.getenv('ROUTING_KEY_RESPONSE')
 
 
 def main():

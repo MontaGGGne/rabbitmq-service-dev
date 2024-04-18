@@ -14,6 +14,13 @@ services:
     ports:
       - 15672:15672
       - 7801:5672
+    # command:
+    #   - /bin/bash
+    #   - -c
+    #   - |
+    #     rabbitmqctl add_user test test
+    #     rabbitmqctl set_user_tags test administrator
+    #     rabbitmqctl set_permissions -p / test "." "." ".*"
 
   # workspace:
   #   build: .
@@ -50,6 +57,7 @@ services:
     # ports:
     #   - 7000:7000
     # command: python ./rpc_producer.py
+    # command: sh -c "rabbitmqctl add_user test test && rabbitmqctl set_user_tags test administrator && rabbitmqctl set_permissions -p / test "." "." ".*" "
     restart: always
 
   rmq_producer_2:

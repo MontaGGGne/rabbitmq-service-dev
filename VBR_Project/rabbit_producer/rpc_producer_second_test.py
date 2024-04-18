@@ -74,7 +74,7 @@ def main():
         data_list.append(data_line.split(','))
         data_line_list_of_dicts = [{col_name: float(col_val)} for col_name, col_val in zip(columns_names, data_line.split(','))]
         data_line_list_of_dicts.append({'prod_num': PROD_NUM})
-        body=json.dumps({data_id: data_line_list_of_dicts})
+        # body=json.dumps({data_id: data_line_list_of_dicts})
 
         channel.basic_publish(exchange=EXCHANGE,
                                 routing_key=ROUTING_KEY_REQUEST,

@@ -14,9 +14,6 @@ services:
     ports:
       - 15672:15672
       - 7801:5672
-
-    networks:
-      - rabbitnetwork
     # command:
     #   - /bin/bash
     #   - -c
@@ -128,13 +125,10 @@ services:
   #   restart: always
 
   rmq_consumer_1:
-    container_name: rmq_consumer_1
     build:
         context: .
-        dockerfile: ./rabbit_consumer/Dockerfile
-    restart: always
-    depends_on:
-      - rabbitmq_server
+        dockerfile: ./Dockerfile
+    container_name: rmq_consumer_1
     environment:
       - HOST=${HOST}
       - PORT=${PORT}
@@ -149,11 +143,10 @@ services:
       - QUEUE_RESPONSE=${QUEUE_RESPONSE}
       - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_CONSUMER}
       - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_CONSUMER}
+    depends_on:
+      - rabbitmq_server
     volumes:
       - ./rabbit_consumer/:/workspace/rabbit_consumer_1/
-
-    networks:
-      - rabbitnetwork
 
     # command: python3 /workspace/rabbit_consumer_1/rpc_consumer.py
 
@@ -184,7 +177,3 @@ services:
   #     - ./rabbit_consumer/:/workspace/rabbit_consumer_2/
 
     # command: python /workspace/rabbit_consumer_2/rpc_consumer.py
-
-networks:
-  rabbitnetwork:
-    driver: bridge

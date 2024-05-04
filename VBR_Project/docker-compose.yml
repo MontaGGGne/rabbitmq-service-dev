@@ -1,22 +1,33 @@
-version: "2.1"
+version: "3"
+
 services:
-  rabbitmq_server:
-    container_name: rabbitmq_server
+  rabbitmqServer:
+    container_name: rabbitmqServer
     image: rabbitmq:3.10.7-management
-    hostname: rabbitmq
+    hostname: "rabbitmqhost"
     restart: always
     environment:
-      - RABBITMQ_DEFAULT_USER='${RABBITMQ_DEFAULT_USER}'
-      - RABBITMQ_DEFAULT_PASS='${RABBITMQ_DEFAULT_PASS}'
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
       - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit log_levels [{connection,error},{default,error}] disk_free_limit 2147483648
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq
+      - ./rabbitmq/log/:/var/log/rabbitmq/
     ports:
-      - 15672:15672
-      - 7801:5672
+      # - 15672:15672
+      # - 7801:5672
+      - 5672:5672    #amqp
+      - 15672:15672  #http
+      - 15692:15692  #prometheus
+    healthcheck:
+      #rabbitmq-diagnostics check_port_connectivity
+      test: rabbitmq-diagnostics -q status && rabbitmq-diagnostics -q check_local_alarms
+      interval: 30s
+      timeout: 3s
+      retries: 3
 
-    networks:
-      - rabbitnetwork
+    # networks:
+    #   - rabbitnetwork
     # command:
     #   - /bin/bash
     #   - -c
@@ -128,13 +139,17 @@ services:
   #   restart: always
 
   rmq_consumer_1:
+    tty: true
     container_name: rmq_consumer_1
     build:
         context: .
         dockerfile: ./rabbit_consumer/Dockerfile
     restart: always
     depends_on:
-      - rabbitmq_server
+      rabbitmqServer:
+        condition: service_healthy
+    ports:
+      - 8000:8000
     environment:
       - HOST=${HOST}
       - PORT=${PORT}
@@ -152,8 +167,8 @@ services:
     volumes:
       - ./rabbit_consumer/:/workspace/rabbit_consumer_1/
 
-    networks:
-      - rabbitnetwork
+    # networks:
+    #   - rabbitnetwork
 
     # command: python3 /workspace/rabbit_consumer_1/rpc_consumer.py
 
@@ -185,6 +200,6 @@ services:
 
     # command: python /workspace/rabbit_consumer_2/rpc_consumer.py
 
-networks:
-  rabbitnetwork:
-    driver: bridge
+# networks:
+#   rabbitnetwork:
+#     driver: bridge

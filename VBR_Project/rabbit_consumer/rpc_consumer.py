@@ -3,6 +3,7 @@ import os
 import logging
 import traceback
 from rmq_custom_pack import rpc_consumer
+from dotenv import load_dotenv
 
 print("""Текст песни «Хороший день»]
 
@@ -43,6 +44,8 @@ Ebanat on the beat
 logging.basicConfig(level=logging.INFO, filename="py_log_consumer.log",filemode="w",
                     format="%(asctime)s %(levelname)s %(message)s")
 
+load_dotenv()
+
 # HOST=os.getenv('HOST')
 # PORT=int(os.getenv('PORT'))
 # USER=os.getenv('USER')
@@ -74,13 +77,13 @@ print(f"""[EXCHANGE]: {EXCHANGE},
              [EXCHANGE_TYPE]: {EXCHANGE_TYPE}, 
              [QUEUE_REQUEST]: {QUEUE_REQUEST}, 
              [QUEUE_RESPONSE]: {QUEUE_RESPONSE}, 
-             [QUEUE_RESPONSE]: {ROUTING_KEY_REQUEST}, 
+             [ROUTING_KEY_REQUEST]: {ROUTING_KEY_REQUEST}, 
              [ROUTING_KEY_RESPONSE]: {ROUTING_KEY_RESPONSE}""")
 logging.info(f"""[EXCHANGE]: {EXCHANGE}, 
              [EXCHANGE_TYPE]: {EXCHANGE_TYPE}, 
              [QUEUE_REQUEST]: {QUEUE_REQUEST}, 
              [QUEUE_RESPONSE]: {QUEUE_RESPONSE}, 
-             [QUEUE_RESPONSE]: {ROUTING_KEY_REQUEST}, 
+             [ROUTING_KEY_REQUEST]: {ROUTING_KEY_REQUEST}, 
              [ROUTING_KEY_RESPONSE]: {ROUTING_KEY_RESPONSE}""")
 
 
@@ -88,16 +91,23 @@ def main():
     try:
         print('An instance of the class must be obtained')
         logging.info('An instance of the class must be obtained')
-        consumer = rpc_consumer.Consumer(host=HOST,
-                                port=PORT,
-                                user=USER,
-                                password=PASSWORD,
-                                exchange=EXCHANGE,
-                                exchange_type=EXCHANGE_TYPE,
-                                queue_request=QUEUE_REQUEST,
-                                queue_response=QUEUE_RESPONSE,
-                                r_key_request=ROUTING_KEY_REQUEST,
-                                r_key_response=ROUTING_KEY_RESPONSE)
+        conn_num = 10
+        while conn_num != 0:
+            try:
+                consumer = rpc_consumer.Consumer(host=HOST,
+                                        port=PORT,
+                                        user=USER,
+                                        password=PASSWORD,
+                                        exchange=EXCHANGE,
+                                        exchange_type=EXCHANGE_TYPE,
+                                        queue_request=QUEUE_REQUEST,
+                                        queue_response=QUEUE_RESPONSE,
+                                        r_key_request=ROUTING_KEY_REQUEST,
+                                        r_key_response=ROUTING_KEY_RESPONSE)
+                conn_num = 0
+                continue
+            except:
+                conn_num -= 1
         print('Received an instance of the class')
         logging.info('Received an instance of the class')
     except Exception as e:

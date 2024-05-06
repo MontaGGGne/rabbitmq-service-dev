@@ -26,8 +26,6 @@ services:
       timeout: 3s
       retries: 3
 
-    # networks:
-    #   - rabbitnetwork
     # command:
     #   - /bin/bash
     #   - -c
@@ -41,38 +39,40 @@ services:
   #   volumes:
   #     - ..:/workspace:cached
 
-  # rmq_producer_1:
-  #   build:
-  #       context: .
-  #       dockerfile: ./Dockerfile
-  #   container_name: rmq_producer_1
-  #   environment:
-  #     - PROD_NUM=1
-  #     - HOST='${HOST}'
-  #     - PORT='${PORT}'
-  #     - USER='${USER}'
-  #     - PASSWORD='${PASSWORD}'
-  #     - REPO_URL='${REPO_URL}'
-  #     - TOKEN='${TOKEN}'
-  #     - URL_PATH_STORAGE='${URL_PATH_STORAGE}'
-  #     - EXCHANGE='${EXCHANGE}'
-  #     - EXCHANGE_TYPE='${EXCHANGE_TYPE}'
-  #     - QUEUE_REQUEST='${QUEUE_REQUEST}'
-  #     - QUEUE_RESPONSE='${QUEUE_RESPONSE}'
-  #     - ROUTING_KEY_REQUEST='${ROUTING_KEY_REQUEST_PRODUCER}'
-  #     - ROUTING_KEY_RESPONSE='${ROUTING_KEY_RESPONSE_PRODUCER}'
-  #   depends_on:
-  #     - rabbitmq_server
-  #     - rmq_consumer_1
-  #     - rmq_consumer_2
-
-  #   volumes:
-  #     - ./rabbit_producer/:/workspace/rabbit_producer_1/
-  #   # ports:
-  #   #   - 7000:7000
-  #   # command: python ./rpc_producer.py
-  #   # command: sh -c "rabbitmqctl add_user test test && rabbitmqctl set_user_tags test administrator && rabbitmqctl set_permissions -p / test "." "." ".*" "
-  #   restart: always
+  rmq_producer_1:
+    tty: true
+    build:
+        context: .
+        dockerfile: ./rabbit_producer/Dockerfile
+        args:
+          ENV: '1'
+    container_name: rmq_producer_1
+    environment:
+      - PROD_NUM=1
+      - HOST=${HOST}
+      - PORT=${PORT}
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+      - REPO_URL=${REPO_URL}
+      - TOKEN=${TOKEN}
+      - URL_PATH_STORAGE=${URL_PATH_STORAGE}
+      - EXCHANGE=${EXCHANGE}
+      - EXCHANGE_TYPE=${EXCHANGE_TYPE}
+      - QUEUE_REQUEST=${QUEUE_REQUEST}
+      - QUEUE_RESPONSE=${QUEUE_RESPONSE}
+      - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_PRODUCER}
+      - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_PRODUCER}
+    depends_on:
+      - rabbitmqServer
+      - rmq_consumer_1
+      - rmq_consumer_2
+    volumes:
+      - ./rabbit_producer/:/workspace/rabbit_producer/
+    restart: always
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+    command: python3 /workspace/rabbit_producer/rpc_producer.py
 
   # rmq_producer_2:
   #   build:
@@ -144,6 +144,8 @@ services:
     build:
         context: .
         dockerfile: ./rabbit_consumer/Dockerfile
+        args:
+          PROD_NUM: '1'
     restart: always
     depends_on:
       rabbitmqServer:
@@ -151,6 +153,7 @@ services:
     ports:
       - 8000:8000
     environment:
+      - PROD_NUM=1
       - HOST=${HOST}
       - PORT=${PORT}
       - USER=${USER}
@@ -164,41 +167,48 @@ services:
       - QUEUE_RESPONSE=${QUEUE_RESPONSE}
       - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_CONSUMER}
       - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_CONSUMER}
+    # volumes:
+    #   - ./rabbit_consumer/:/workspace/rabbit_consumer_1/
+    # command: python3 /workspace/rabbit_consumer_1/rpc_consumer.py
     volumes:
-      - ./rabbit_consumer/:/workspace/rabbit_consumer_1/
+      - ./rabbit_consumer/:/workspace/rabbit_consumer/
+    command: python3 /workspace/rabbit_consumer/rpc_consumer.py
 
-    # networks:
-    #   - rabbitnetwork
-
-    command: python3 /workspace/rabbit_consumer_1/rpc_consumer.py
-
-  # rmq_consumer_2:
-
-  #   build:
-  #       context: .
-  #       dockerfile: ./Dockerfile
-  #   container_name: rmq_consumer_2
-  #   environment:
-  #     - PROD_NUM=3
-  #     - HOST='${HOST}'
-  #     - PORT='${PORT}'
-  #     - USER='${USER}'
-  #     - PASSWORD='${PASSWORD}'
-  #     - REPO_URL='${REPO_URL}'
-  #     - TOKEN='${TOKEN}'
-  #     - URL_PATH_STORAGE='${URL_PATH_STORAGE}'
-  #     - EXCHANGE='${EXCHANGE}'
-  #     - EXCHANGE_TYPE='${EXCHANGE_TYPE}'
-  #     - QUEUE_REQUEST='${QUEUE_REQUEST}'
-  #     - QUEUE_RESPONSE='${QUEUE_RESPONSE}'
-  #     - ROUTING_KEY_REQUEST='${ROUTING_KEY_REQUEST_CONSUMER}'
-  #     - ROUTING_KEY_RESPONSE='${ROUTING_KEY_RESPONSE_CONSUMER}'
-  #   depends_on:
-  #     - rabbitmq_server
-  #   volumes:
-  #     - ./rabbit_consumer/:/workspace/rabbit_consumer_2/
-
-    # command: python /workspace/rabbit_consumer_2/rpc_consumer.py
+  rmq_consumer_2:
+    tty: true
+    container_name: rmq_consumer_2
+    build:
+        context: .
+        dockerfile: ./rabbit_consumer/Dockerfile
+        args:
+          PROD_NUM: '2'
+    restart: always
+    depends_on:
+      rabbitmqServer:
+        condition: service_healthy
+    ports:
+      - 9000:9000
+    environment:
+      - PROD_NUM=2
+      - HOST=${HOST}
+      - PORT=${PORT}
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+      - REPO_URL=${REPO_URL}
+      - TOKEN=${TOKEN}
+      - URL_PATH_STORAGE=${URL_PATH_STORAGE}
+      - EXCHANGE=${EXCHANGE}
+      - EXCHANGE_TYPE=${EXCHANGE_TYPE}
+      - QUEUE_REQUEST=${QUEUE_REQUEST}
+      - QUEUE_RESPONSE=${QUEUE_RESPONSE}
+      - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_CONSUMER}
+      - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_CONSUMER}
+    # volumes:
+    #   - ./rabbit_consumer/:/workspace/rabbit_consumer_2/
+    # command: python3 /workspace/rabbit_consumer/rpc_consumer_2.py
+    volumes:
+      - ./rabbit_consumer/:/workspace/rabbit_consumer/
+    command: python3 /workspace/rabbit_consumer/rpc_consumer.py
 
 # networks:
 #   rabbitnetwork:

@@ -170,7 +170,7 @@ services:
     # networks:
     #   - rabbitnetwork
 
-    # command: python3 /workspace/rabbit_consumer_1/rpc_consumer.py
+    command: python3 /workspace/rabbit_consumer_1/rpc_consumer.py
 
   # rmq_consumer_2:
 

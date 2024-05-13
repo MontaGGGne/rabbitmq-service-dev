@@ -5,7 +5,7 @@ from rmq_custom_pack import rpc_producer
 PROD_NUM = 2
 
 HOST = 'localhost'
-PORT = 7801
+PORT = 5672
 USER = 'rmuser'
 PASSWORD = 'rmpassword'
 

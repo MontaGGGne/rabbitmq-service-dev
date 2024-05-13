@@ -10,7 +10,7 @@ from dagshub import streaming
 PROD_NUM = 1
 
 HOST = 'localhost'
-PORT = 7801
+PORT = 5672
 USER = 'rmuser'
 PASSWORD = 'rmpassword'
 
@@ -18,6 +18,7 @@ REPO_URL = 'https://dagshub.com/Dimitriy200/diplom_autoencoder'
 TOKEN = 'a1482d904ec14cd6e61aa6fcc9df96278dc7c911'
 # https://dagshub.com/Dimitriy200/diplom_autoencoder/src/main/data/raw
 URL_PATH_STORAGE = 'https://dagshub.com/api/v1/repos/Dimitriy200/diplom_autoencoder/raw/ee325159c4cd9c796be0ea038c9272b8dc10626d/data/raw/'
+URL_PATH_STORAGE = 'https://dagshub.com/api/v1/repos/Dimitriy200/diplom_autoencoder/raw/8c1d92c8f0db4192c94adcc113064ec6ec7280e2/data/raw/train_FD001.csv'
 
 EXCHANGE='dataset-reader'
 EXCHANGE_TYPE='topic'

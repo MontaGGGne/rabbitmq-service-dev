@@ -11,9 +11,8 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, filename=f"py_log_producer_{os.environ.get('PROD_NUM')}.log",filemode="w",
                     format="%(asctime)s %(levelname)s %(message)s")
 
-FILENAME="test_FD001.csv"
-
 PROD_NUM=os.getenv('PROD_NUM')
+FILENAME=f"test_FD00{PROD_NUM}.csv"
 
 HOST=os.getenv('HOST')
 PORT=os.getenv('PORT')

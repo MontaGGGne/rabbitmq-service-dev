@@ -1,4 +1,4 @@
-import sys, os, pika, json, logger
+import sys, os, pika, json, logging
 import pandas as pd
 import time
 import boto3
@@ -12,7 +12,7 @@ def main():
     connection = pika.BlockingConnection(
                 pika.ConnectionParameters(
                     host='localhost',
-                    port=7801,
+                    port=5672,
                     credentials=pika.PlainCredentials(
                         'rmuser',
                         'rmpassword')))
@@ -67,7 +67,7 @@ def main():
     # channel.queue_bind(exchange=os.getenv("EXCHANGE"), queue=os.getenv("QUEUE_RESPONSE"), routing_key=os.getenv("ROUTING_KEY_RESPONSE"))
     
     
-    channel.exchange_declare(exchange='dataset-reader', exchange_type='direct', durable=True)
+    channel.exchange_declare(exchange='dataset-reader', exchange_type='topic', durable=True)
 
     channel.queue_declare(queue='dataset-reader-request', durable=True)
     channel.queue_bind(exchange='dataset-reader', queue='dataset-reader-request', routing_key='request')

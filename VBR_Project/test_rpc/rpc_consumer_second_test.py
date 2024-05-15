@@ -41,6 +41,10 @@ def main():
         ch.basic_ack(delivery_tag=method.delivery_tag)
         
         print(body)
+        # body_dict = json.loads
+        # with open('data.json', 'w') as file:
+        #     json.dump(body, file)
+        #     json.dump
 
         ch.basic_publish(exchange=EXCHANGE, 
                         routing_key=ROUTING_KEY_RESPONSE, 

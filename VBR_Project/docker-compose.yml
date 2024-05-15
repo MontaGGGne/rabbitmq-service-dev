@@ -14,38 +14,20 @@ services:
       - ./rabbitmq:/var/lib/rabbitmq
       - ./rabbitmq/log/:/var/log/rabbitmq/
     ports:
-      # - 15672:15672
-      # - 7801:5672
       - 5672:5672    #amqp
       - 15672:15672  #http
       - 15692:15692  #prometheus
     healthcheck:
-      #rabbitmq-diagnostics check_port_connectivity
       test: rabbitmq-diagnostics -q status && rabbitmq-diagnostics -q check_local_alarms
       interval: 30s
       timeout: 3s
       retries: 3
-
-    # command:
-    #   - /bin/bash
-    #   - -c
-    #   - |
-    #     rabbitmqctl add_user test test
-    #     rabbitmqctl set_user_tags test administrator
-    #     rabbitmqctl set_permissions -p / test "." "." ".*"
-
-  # workspace:
-  #   build: .
-  #   volumes:
-  #     - ..:/workspace:cached
 
   rmq_producer_1:
     tty: true
     build:
         context: .
         dockerfile: ./rabbit_producer/Dockerfile
-        args:
-          ENV: '1'
     container_name: rmq_producer_1
     environment:
       - PROD_NUM=1
@@ -79,8 +61,6 @@ services:
     build:
         context: .
         dockerfile: ./rabbit_producer/Dockerfile
-        args:
-          ENV: '2'
     container_name: rmq_producer_2
     environment:
       - PROD_NUM=2
@@ -114,8 +94,6 @@ services:
     build:
         context: .
         dockerfile: ./rabbit_producer/Dockerfile
-        args:
-          ENV: '3'
     container_name: rmq_producer_3
     environment:
       - PROD_NUM=3
@@ -150,8 +128,6 @@ services:
     build:
         context: .
         dockerfile: ./rabbit_consumer/Dockerfile
-        args:
-          PROD_NUM: '1'
     restart: always
     depends_on:
       rabbitmqServer:
@@ -173,9 +149,6 @@ services:
       - QUEUE_RESPONSE=${QUEUE_RESPONSE}
       - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_CONSUMER}
       - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_CONSUMER}
-    # volumes:
-    #   - ./rabbit_consumer/:/workspace/rabbit_consumer_1/
-    # command: python3 /workspace/rabbit_consumer_1/rpc_consumer.py
     volumes:
       - ./rabbit_consumer/:/workspace/rabbit_consumer/
     command: python3 /workspace/rabbit_consumer/rpc_consumer.py
@@ -186,8 +159,6 @@ services:
     build:
         context: .
         dockerfile: ./rabbit_consumer/Dockerfile
-        args:
-          PROD_NUM: '2'
     restart: always
     depends_on:
       rabbitmqServer:
@@ -209,13 +180,6 @@ services:
       - QUEUE_RESPONSE=${QUEUE_RESPONSE}
       - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_CONSUMER}
       - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_CONSUMER}
-    # volumes:
-    #   - ./rabbit_consumer/:/workspace/rabbit_consumer_2/
-    # command: python3 /workspace/rabbit_consumer/rpc_consumer_2.py
     volumes:
       - ./rabbit_consumer/:/workspace/rabbit_consumer/
     command: python3 /workspace/rabbit_consumer/rpc_consumer.py
-
-# networks:
-#   rabbitnetwork:
-#     driver: bridge

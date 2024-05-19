@@ -10,5 +10,7 @@
 *.vscode
 rabbitmq/
 mnesia/
+test_rpc/
+unit_number_*
 # cloud_env
 

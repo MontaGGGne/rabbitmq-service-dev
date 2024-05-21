@@ -6,17 +6,19 @@ from rmq_custom_pack import rpc_consumer
 from dotenv import load_dotenv
 
 
+load_dotenv()
+
 logging.basicConfig(level=logging.INFO, filename=f"py_log_consumer_{os.environ.get('PROD_NUM')}.log",filemode="w",
                     format="%(asctime)s %(levelname)s %(message)s")
 
-load_dotenv()
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 HOST=os.environ.get('HOST')
 PORT=int(os.environ.get('PORT'))
 USER=os.environ.get('USER')
 PASSWORD=os.environ.get('PASSWORD')
 
-print(f"[HOST]: {HOST}, [PORT]: {PORT}, [USER]: {USER}, [PASSWORD]: {PASSWORD}")
+# print(f"[HOST]: {HOST}, [PORT]: {PORT}, [USER]: {USER}, [PASSWORD]: {PASSWORD}")
 logging.info(f"[HOST]: {HOST}, [PORT]: {PORT}, [USER]: {USER}, [PASSWORD]: {PASSWORD}")
 
 EXCHANGE=os.environ.get('EXCHANGE')
@@ -26,12 +28,12 @@ QUEUE_RESPONSE=os.environ.get('QUEUE_RESPONSE')
 ROUTING_KEY_REQUEST=os.environ.get('ROUTING_KEY_REQUEST')
 ROUTING_KEY_RESPONSE=os.environ.get('ROUTING_KEY_RESPONSE')
 
-print(f"""[EXCHANGE]: {EXCHANGE}, 
-             [EXCHANGE_TYPE]: {EXCHANGE_TYPE}, 
-             [QUEUE_REQUEST]: {QUEUE_REQUEST}, 
-             [QUEUE_RESPONSE]: {QUEUE_RESPONSE}, 
-             [ROUTING_KEY_REQUEST]: {ROUTING_KEY_REQUEST}, 
-             [ROUTING_KEY_RESPONSE]: {ROUTING_KEY_RESPONSE}""")
+# print(f"""[EXCHANGE]: {EXCHANGE}, 
+#              [EXCHANGE_TYPE]: {EXCHANGE_TYPE}, 
+#              [QUEUE_REQUEST]: {QUEUE_REQUEST}, 
+#              [QUEUE_RESPONSE]: {QUEUE_RESPONSE}, 
+#              [ROUTING_KEY_REQUEST]: {ROUTING_KEY_REQUEST}, 
+#              [ROUTING_KEY_RESPONSE]: {ROUTING_KEY_RESPONSE}""")
 logging.info(f"""[EXCHANGE]: {EXCHANGE}, 
              [EXCHANGE_TYPE]: {EXCHANGE_TYPE}, 
              [QUEUE_REQUEST]: {QUEUE_REQUEST}, 
@@ -42,7 +44,7 @@ logging.info(f"""[EXCHANGE]: {EXCHANGE},
 
 def main():
     try:
-        print('An instance of the class must be obtained')
+        # print('An instance of the class must be obtained')
         logging.info('An instance of the class must be obtained')
         conn_num = 10
         while conn_num != 0:
@@ -61,19 +63,20 @@ def main():
                 continue
             except:
                 conn_num -= 1
-        print('Received an instance of the class')
+        # print('Received an instance of the class')
         logging.info('Received an instance of the class')
     except Exception as e:
-        print(traceback.format_exc())
+        # print(traceback.format_exc())
         logging.exception(e)
         logging.error(traceback.format_exc())
 
     try:
-        consumer_handler_res = consumer.consumer_handler()
-        print(f"consumer_handler_res: {consumer_handler_res['basic_consume_res']}")
+        measurements_dir = os.path.join(SCRIPT_DIR, 'units_measurements')
+        consumer_handler_res = consumer.consumer_handler(measurements_dir)
+        # print(f"consumer_handler_res: {consumer_handler_res['basic_consume_res']}")
         logging.info(f"consumer_handler_res: {consumer_handler_res['basic_consume_res']}")
     except Exception as e:
-        print(traceback.format_exc())
+        # print(traceback.format_exc())
         logging.exception(e)
         logging.error(traceback.format_exc())
 

@@ -7,7 +7,7 @@ import json
 import os
 from dagshub import streaming
 
-PROD_NUM = 1
+PROD_NUM = 3
 
 HOST = 'localhost'
 PORT = 5672
@@ -70,6 +70,9 @@ def main():
     columns_names = list_csv[0].split(',')
     data_list = []
     list_csv.pop(0)
+    for i in range(PROD_NUM-1):
+        list_csv.pop(0)
+    list_csv_prod_num = list_csv[::3]
     for data_id, data_line in enumerate(list_csv):
         if data_line is None or data_line == '':
             continue

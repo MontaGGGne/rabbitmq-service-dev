@@ -11,15 +11,17 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, filename=f"py_log_producer_{os.environ.get('PROD_NUM')}.log",filemode="w",
                     format="%(asctime)s %(levelname)s %(message)s")
 
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+
 PROD_NUM=os.getenv('PROD_NUM')
-FILENAME=f"test_FD00{PROD_NUM}.csv"
+FILENAME=f"test_FD001.csv"
 
 HOST=os.getenv('HOST')
 PORT=os.getenv('PORT')
 USER=os.getenv('USER')
 PASSWORD=os.getenv('PASSWORD')
 
-print(f"[HOST]: {HOST}, [PORT]: {PORT}, [USER]: {USER}, [PASSWORD]: {PASSWORD}")
+# print(f"[HOST]: {HOST}, [PORT]: {PORT}, [USER]: {USER}, [PASSWORD]: {PASSWORD}")
 logging.info(f"[HOST]: {HOST}, [PORT]: {PORT}, [USER]: {USER}, [PASSWORD]: {PASSWORD}")
 
 REPO_URL=os.getenv('REPO_URL')
@@ -33,12 +35,12 @@ QUEUE_RESPONSE=os.getenv('QUEUE_RESPONSE')
 ROUTING_KEY_REQUEST=f"{os.getenv('ROUTING_KEY_REQUEST')}{PROD_NUM}"
 ROUTING_KEY_RESPONSE=f"{os.getenv('ROUTING_KEY_RESPONSE')}{PROD_NUM}"
 
-print(f"""[EXCHANGE]: {EXCHANGE}, 
-             [EXCHANGE_TYPE]: {EXCHANGE_TYPE}, 
-             [QUEUE_REQUEST]: {QUEUE_REQUEST}, 
-             [QUEUE_RESPONSE]: {QUEUE_RESPONSE}, 
-             [ROUTING_KEY_REQUEST]: {ROUTING_KEY_REQUEST}, 
-             [ROUTING_KEY_RESPONSE]: {ROUTING_KEY_RESPONSE}""")
+# print(f"""[EXCHANGE]: {EXCHANGE}, 
+#              [EXCHANGE_TYPE]: {EXCHANGE_TYPE}, 
+#              [QUEUE_REQUEST]: {QUEUE_REQUEST}, 
+#              [QUEUE_RESPONSE]: {QUEUE_RESPONSE}, 
+#              [ROUTING_KEY_REQUEST]: {ROUTING_KEY_REQUEST}, 
+#              [ROUTING_KEY_RESPONSE]: {ROUTING_KEY_RESPONSE}""")
 logging.info(f"""[EXCHANGE]: {EXCHANGE}, 
              [EXCHANGE_TYPE]: {EXCHANGE_TYPE}, 
              [QUEUE_REQUEST]: {QUEUE_REQUEST}, 
@@ -49,7 +51,7 @@ logging.info(f"""[EXCHANGE]: {EXCHANGE},
 
 def main():
     try:
-        print('An instance of the class must be obtained')
+        # print('An instance of the class must be obtained')
         logging.info('An instance of the class must be obtained')
         producer = rpc_producer.Producer(host=HOST,
                                 port=PORT,
@@ -61,7 +63,7 @@ def main():
                                 queue_response=QUEUE_RESPONSE,
                                 r_key_request=ROUTING_KEY_REQUEST,
                                 r_key_response=ROUTING_KEY_RESPONSE)
-        print('Received an instance of the class')
+        # print('Received an instance of the class')
         logging.info('Received an instance of the class')
     except Exception as e:
         print(traceback.format_exc())
@@ -69,11 +71,17 @@ def main():
         logging.error(traceback.format_exc())
 
     try:
-        producer_handler_res = producer.producer_handler(prod_num=PROD_NUM, repo_url=REPO_URL, token=TOKEN, url_path_storage=URL_PATH_STORAGE, filename=FILENAME)
-        print(f"consumer_handler_res: {producer_handler_res['basic_consume_res']}")
+        csv_files = os.path.join(SCRIPT_DIR, 'csv_files')
+        producer_handler_res = producer.producer_handler(prod_num=PROD_NUM,
+                                                         repo_url=REPO_URL,
+                                                         token=TOKEN,
+                                                         url_path_storage=URL_PATH_STORAGE,
+                                                         files_dir=csv_files,
+                                                         filename=FILENAME)
+        # print(f"consumer_handler_res: {producer_handler_res['basic_consume_res']}")
         logging.info(f"consumer_handler_res: {producer_handler_res['basic_consume_res']}")
     except Exception as e:
-        print(traceback.format_exc())
+        # print(traceback.format_exc())
         logging.exception(e)
         logging.error(traceback.format_exc())
 

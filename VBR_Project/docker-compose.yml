@@ -50,7 +50,7 @@ services:
       - rmq_consumer_2
     volumes:
       - ./rabbit_producer/:/workspace/rabbit_producer/
-    restart: always
+    # restart: always
     healthcheck:
       interval: 10s
       timeout: 5s
@@ -83,7 +83,7 @@ services:
       - rmq_consumer_2
     volumes:
       - ./rabbit_producer/:/workspace/rabbit_producer/
-    restart: always
+    # restart: always
     healthcheck:
       interval: 10s
       timeout: 5s
@@ -116,7 +116,7 @@ services:
       - rmq_consumer_2
     volumes:
       - ./rabbit_producer/:/workspace/rabbit_producer/
-    restart: always
+    # restart: always
     healthcheck:
       interval: 10s
       timeout: 5s
@@ -136,6 +136,8 @@ services:
       - 8000:8000
     environment:
       - PROD_NUM=1
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_WRITE_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_WRITE_KEY}
       - HOST=${HOST}
       - PORT=${PORT}
       - USER=${USER}
@@ -167,6 +169,8 @@ services:
       - 9000:9000
     environment:
       - PROD_NUM=2
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_WRITE_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_WRITE_KEY}
       - HOST=${HOST}
       - PORT=${PORT}
       - USER=${USER}

@@ -13,6 +13,9 @@ logging.basicConfig(level=logging.INFO, filename=f"py_log_consumer_{os.environ.g
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
+KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
+SECRET_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
+
 HOST=os.environ.get('HOST')
 PORT=int(os.environ.get('PORT'))
 USER=os.environ.get('USER')
@@ -49,16 +52,18 @@ def main():
         conn_num = 10
         while conn_num != 0:
             try:
-                consumer = rpc_consumer.Consumer(host=HOST,
-                                        port=PORT,
-                                        user=USER,
-                                        password=PASSWORD,
-                                        exchange=EXCHANGE,
-                                        exchange_type=EXCHANGE_TYPE,
-                                        queue_request=QUEUE_REQUEST,
-                                        queue_response=QUEUE_RESPONSE,
-                                        r_key_request=ROUTING_KEY_REQUEST,
-                                        r_key_response=ROUTING_KEY_RESPONSE)
+                consumer = rpc_consumer.Consumer(key_id=KEY_ID,
+                                                 secret_key=SECRET_KEY,
+                                                 host=HOST,
+                                                 port=PORT,
+                                                 user=USER,
+                                                 password=PASSWORD,
+                                                 exchange=EXCHANGE,
+                                                 exchange_type=EXCHANGE_TYPE,
+                                                 queue_request=QUEUE_REQUEST,
+                                                 queue_response=QUEUE_RESPONSE,
+                                                 r_key_request=ROUTING_KEY_REQUEST,
+                                                 r_key_response=ROUTING_KEY_RESPONSE)
                 conn_num = 0
                 continue
             except:
@@ -71,8 +76,7 @@ def main():
         logging.error(traceback.format_exc())
 
     try:
-        measurements_dir = os.path.join(SCRIPT_DIR, 'units_measurements')
-        consumer_handler_res = consumer.consumer_handler(measurements_dir)
+        consumer_handler_res = consumer.consumer_handler()
         # print(f"consumer_handler_res: {consumer_handler_res['basic_consume_res']}")
         logging.info(f"consumer_handler_res: {consumer_handler_res['basic_consume_res']}")
     except Exception as e:

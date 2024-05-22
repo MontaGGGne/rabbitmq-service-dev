@@ -11,7 +11,7 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, filename=f"py_log_producer_{os.environ.get('PROD_NUM')}.log",filemode="w",
                     format="%(asctime)s %(levelname)s %(message)s")
 
-SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+CSV_FILES_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'csv_files')
 
 PROD_NUM=os.getenv('PROD_NUM')
 FILENAME=f"test_FD001.csv"
@@ -71,15 +71,12 @@ def main():
         logging.error(traceback.format_exc())
 
     try:
-        csv_files = os.path.join(SCRIPT_DIR, 'csv_files')
         producer_handler_res = producer.producer_handler(prod_num=PROD_NUM,
-                                                         repo_url=REPO_URL,
-                                                         token=TOKEN,
-                                                         url_path_storage=URL_PATH_STORAGE,
-                                                         files_dir=csv_files,
+                                                         csv_files_dir=CSV_FILES_DIR,
                                                          filename=FILENAME)
         # print(f"consumer_handler_res: {producer_handler_res['basic_consume_res']}")
         logging.info(f"consumer_handler_res: {producer_handler_res['basic_consume_res']}")
+        logging.debug(f"csv_file_str: {producer_handler_res['csv_file_str']}")
     except Exception as e:
         # print(traceback.format_exc())
         logging.exception(e)

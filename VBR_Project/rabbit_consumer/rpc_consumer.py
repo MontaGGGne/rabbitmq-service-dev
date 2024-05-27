@@ -15,6 +15,7 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
 SECRET_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
+BUCKET_ID=os.environ.get('BUCKET_ID')
 
 HOST=os.environ.get('HOST')
 PORT=int(os.environ.get('PORT'))
@@ -76,7 +77,7 @@ def main():
         logging.error(traceback.format_exc())
 
     try:
-        consumer_handler_res = consumer.consumer_handler()
+        consumer_handler_res = consumer.consumer_handler(BUCKET_ID, 1800.0)
         # print(f"consumer_handler_res: {consumer_handler_res['basic_consume_res']}")
         logging.info(f"consumer_handler_res: {consumer_handler_res['basic_consume_res']}")
     except Exception as e:

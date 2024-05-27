@@ -75,8 +75,8 @@ def main():
                                                          csv_files_dir=CSV_FILES_DIR,
                                                          filename=FILENAME)
         # print(f"consumer_handler_res: {producer_handler_res['basic_consume_res']}")
-        logging.info(f"consumer_handler_res: {producer_handler_res['basic_consume_res']}")
-        logging.debug(f"csv_file_str: {producer_handler_res['csv_file_str']}")
+        logging.info(f"consumer_handler_res: {producer_handler_res['data_publish_res']}")
+        print(f"consumer_handler_res: {producer_handler_res['data_publish_res']}")
     except Exception as e:
         # print(traceback.format_exc())
         logging.exception(e)

@@ -23,167 +23,169 @@ services:
       timeout: 3s
       retries: 3
 
-  # rmq_producer_1:
-  #   tty: true
-  #   build:
-  #       context: .
-  #       dockerfile: ./rabbit_producer/Dockerfile
-  #   container_name: rmq_producer_1
-  #   environment:
-  #     - PROD_NUM=1
-  #     - HOST=${HOST}
-  #     - PORT=${PORT}
-  #     - USER=${USER}
-  #     - PASSWORD=${PASSWORD}
-  #     - REPO_URL=${REPO_URL}
-  #     - TOKEN=${TOKEN}
-  #     - URL_PATH_STORAGE=${URL_PATH_STORAGE}
-  #     - EXCHANGE=${EXCHANGE}
-  #     - EXCHANGE_TYPE=${EXCHANGE_TYPE}
-  #     - QUEUE_REQUEST=${QUEUE_REQUEST}
-  #     - QUEUE_RESPONSE=${QUEUE_RESPONSE}
-  #     - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_PRODUCER}
-  #     - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_PRODUCER}
-  #   depends_on:
-  #     - rabbitmqServer
-  #     - rmq_consumer_1
-  #     - rmq_consumer_2
-  #   volumes:
-  #     - ./rabbit_producer/:/workspace/rabbit_producer/
-  #   # restart: always
-  #   healthcheck:
-  #     interval: 10s
-  #     timeout: 5s
-  #   command: python3 /workspace/rabbit_producer/rpc_producer.py
+  rmq_producer_1:
+    tty: true
+    build:
+        context: .
+        dockerfile: ./rabbit_producer/Dockerfile
+    container_name: rmq_producer_1
+    environment:
+      - PROD_NUM=1
+      - HOST=${HOST}
+      - PORT=${PORT}
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+      - REPO_URL=${REPO_URL}
+      - TOKEN=${TOKEN}
+      - URL_PATH_STORAGE=${URL_PATH_STORAGE}
+      - EXCHANGE=${EXCHANGE}
+      - EXCHANGE_TYPE=${EXCHANGE_TYPE}
+      - QUEUE_REQUEST=${QUEUE_REQUEST}
+      - QUEUE_RESPONSE=${QUEUE_RESPONSE}
+      - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_PRODUCER}
+      - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_PRODUCER}
+    depends_on:
+      - rabbitmqServer
+      - rmq_consumer_1
+      - rmq_consumer_2
+    volumes:
+      - ./rabbit_producer/:/workspace/rabbit_producer/
+    # restart: always
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+    command: python3 /workspace/rabbit_producer/rpc_producer.py
 
-  # rmq_producer_2:
-  #   tty: true
-  #   build:
-  #       context: .
-  #       dockerfile: ./rabbit_producer/Dockerfile
-  #   container_name: rmq_producer_2
-  #   environment:
-  #     - PROD_NUM=2
-  #     - HOST=${HOST}
-  #     - PORT=${PORT}
-  #     - USER=${USER}
-  #     - PASSWORD=${PASSWORD}
-  #     - REPO_URL=${REPO_URL}
-  #     - TOKEN=${TOKEN}
-  #     - URL_PATH_STORAGE=${URL_PATH_STORAGE}
-  #     - EXCHANGE=${EXCHANGE}
-  #     - EXCHANGE_TYPE=${EXCHANGE_TYPE}
-  #     - QUEUE_REQUEST=${QUEUE_REQUEST}
-  #     - QUEUE_RESPONSE=${QUEUE_RESPONSE}
-  #     - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_PRODUCER}
-  #     - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_PRODUCER}
-  #   depends_on:
-  #     - rabbitmqServer
-  #     - rmq_consumer_1
-  #     - rmq_consumer_2
-  #   volumes:
-  #     - ./rabbit_producer/:/workspace/rabbit_producer/
-  #   # restart: always
-  #   healthcheck:
-  #     interval: 10s
-  #     timeout: 5s
-  #   command: python3 /workspace/rabbit_producer/rpc_producer.py
+  rmq_producer_2:
+    tty: true
+    build:
+        context: .
+        dockerfile: ./rabbit_producer/Dockerfile
+    container_name: rmq_producer_2
+    environment:
+      - PROD_NUM=2
+      - HOST=${HOST}
+      - PORT=${PORT}
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+      - REPO_URL=${REPO_URL}
+      - TOKEN=${TOKEN}
+      - URL_PATH_STORAGE=${URL_PATH_STORAGE}
+      - EXCHANGE=${EXCHANGE}
+      - EXCHANGE_TYPE=${EXCHANGE_TYPE}
+      - QUEUE_REQUEST=${QUEUE_REQUEST}
+      - QUEUE_RESPONSE=${QUEUE_RESPONSE}
+      - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_PRODUCER}
+      - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_PRODUCER}
+    depends_on:
+      - rabbitmqServer
+      - rmq_consumer_1
+      - rmq_consumer_2
+    volumes:
+      - ./rabbit_producer/:/workspace/rabbit_producer/
+    # restart: always
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+    command: python3 /workspace/rabbit_producer/rpc_producer.py
 
-  # rmq_producer_3:
-  #   tty: true
-  #   build:
-  #       context: .
-  #       dockerfile: ./rabbit_producer/Dockerfile
-  #   container_name: rmq_producer_3
-  #   environment:
-  #     - PROD_NUM=3
-  #     - HOST=${HOST}
-  #     - PORT=${PORT}
-  #     - USER=${USER}
-  #     - PASSWORD=${PASSWORD}
-  #     - REPO_URL=${REPO_URL}
-  #     - TOKEN=${TOKEN}
-  #     - URL_PATH_STORAGE=${URL_PATH_STORAGE}
-  #     - EXCHANGE=${EXCHANGE}
-  #     - EXCHANGE_TYPE=${EXCHANGE_TYPE}
-  #     - QUEUE_REQUEST=${QUEUE_REQUEST}
-  #     - QUEUE_RESPONSE=${QUEUE_RESPONSE}
-  #     - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_PRODUCER}
-  #     - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_PRODUCER}
-  #   depends_on:
-  #     - rabbitmqServer
-  #     - rmq_consumer_1
-  #     - rmq_consumer_2
-  #   volumes:
-  #     - ./rabbit_producer/:/workspace/rabbit_producer/
-  #   # restart: always
-  #   healthcheck:
-  #     interval: 10s
-  #     timeout: 5s
-  #   command: python3 /workspace/rabbit_producer/rpc_producer.py
+  rmq_producer_3:
+    tty: true
+    build:
+        context: .
+        dockerfile: ./rabbit_producer/Dockerfile
+    container_name: rmq_producer_3
+    environment:
+      - PROD_NUM=3
+      - HOST=${HOST}
+      - PORT=${PORT}
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+      - REPO_URL=${REPO_URL}
+      - TOKEN=${TOKEN}
+      - URL_PATH_STORAGE=${URL_PATH_STORAGE}
+      - EXCHANGE=${EXCHANGE}
+      - EXCHANGE_TYPE=${EXCHANGE_TYPE}
+      - QUEUE_REQUEST=${QUEUE_REQUEST}
+      - QUEUE_RESPONSE=${QUEUE_RESPONSE}
+      - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_PRODUCER}
+      - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_PRODUCER}
+    depends_on:
+      - rabbitmqServer
+      - rmq_consumer_1
+      - rmq_consumer_2
+    volumes:
+      - ./rabbit_producer/:/workspace/rabbit_producer/
+    # restart: always
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+    command: python3 /workspace/rabbit_producer/rpc_producer.py
 
-  # rmq_consumer_1:
-  #   tty: true
-  #   container_name: rmq_consumer_1
-  #   build:
-  #       context: .
-  #       dockerfile: ./rabbit_consumer/Dockerfile
-  #   restart: always
-  #   depends_on:
-  #     rabbitmqServer:
-  #       condition: service_healthy
-  #   ports:
-  #     - 8000:8000
-  #   environment:
-  #     - PROD_NUM=1
-  #     - AWS_ACCESS_KEY_ID=${AWS_ACCESS_WRITE_KEY_ID}
-  #     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_WRITE_KEY}
-  #     - HOST=${HOST}
-  #     - PORT=${PORT}
-  #     - USER=${USER}
-  #     - PASSWORD=${PASSWORD}
-  #     - REPO_URL=${REPO_URL}
-  #     - TOKEN=${TOKEN}
-  #     - URL_PATH_STORAGE=${URL_PATH_STORAGE}
-  #     - EXCHANGE=${EXCHANGE}
-  #     - EXCHANGE_TYPE=${EXCHANGE_TYPE}
-  #     - QUEUE_REQUEST=${QUEUE_REQUEST}
-  #     - QUEUE_RESPONSE=${QUEUE_RESPONSE}
-  #     - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_CONSUMER}
-  #     - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_CONSUMER}
-  #   volumes:
-  #     - ./rabbit_consumer/:/workspace/rabbit_consumer/
-  #   command: python3 /workspace/rabbit_consumer/rpc_consumer.py
+  rmq_consumer_1:
+    tty: true
+    container_name: rmq_consumer_1
+    build:
+        context: .
+        dockerfile: ./rabbit_consumer/Dockerfile
+    restart: always
+    depends_on:
+      rabbitmqServer:
+        condition: service_healthy
+    ports:
+      - 8000:8000
+    environment:
+      - PROD_NUM=1
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_WRITE_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_WRITE_KEY}
+      - BUCKET_ID=${BUCKET_ID}
+      - HOST=${HOST}
+      - PORT=${PORT}
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+      - REPO_URL=${REPO_URL}
+      - TOKEN=${TOKEN}
+      - URL_PATH_STORAGE=${URL_PATH_STORAGE}
+      - EXCHANGE=${EXCHANGE}
+      - EXCHANGE_TYPE=${EXCHANGE_TYPE}
+      - QUEUE_REQUEST=${QUEUE_REQUEST}
+      - QUEUE_RESPONSE=${QUEUE_RESPONSE}
+      - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_CONSUMER}
+      - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_CONSUMER}
+    volumes:
+      - ./rabbit_consumer/:/workspace/rabbit_consumer/
+    command: python3 /workspace/rabbit_consumer/rpc_consumer.py
 
-  # rmq_consumer_2:
-  #   tty: true
-  #   container_name: rmq_consumer_2
-  #   build:
-  #       context: .
-  #       dockerfile: ./rabbit_consumer/Dockerfile
-  #   restart: always
-  #   depends_on:
-  #     rabbitmqServer:
-  #       condition: service_healthy
-  #   ports:
-  #     - 9000:9000
-  #   environment:
-  #     - PROD_NUM=2
-  #     - AWS_ACCESS_KEY_ID=${AWS_ACCESS_WRITE_KEY_ID}
-  #     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_WRITE_KEY}
-  #     - HOST=${HOST}
-  #     - PORT=${PORT}
-  #     - USER=${USER}
-  #     - PASSWORD=${PASSWORD}
-  #     - REPO_URL=${REPO_URL}
-  #     - TOKEN=${TOKEN}
-  #     - URL_PATH_STORAGE=${URL_PATH_STORAGE}
-  #     - EXCHANGE=${EXCHANGE}
-  #     - EXCHANGE_TYPE=${EXCHANGE_TYPE}
-  #     - QUEUE_REQUEST=${QUEUE_REQUEST}
-  #     - QUEUE_RESPONSE=${QUEUE_RESPONSE}
-  #     - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_CONSUMER}
-  #     - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_CONSUMER}
-  #   volumes:
-  #     - ./rabbit_consumer/:/workspace/rabbit_consumer/
-  #   command: python3 /workspace/rabbit_consumer/rpc_consumer.py
+  rmq_consumer_2:
+    tty: true
+    container_name: rmq_consumer_2
+    build:
+        context: .
+        dockerfile: ./rabbit_consumer/Dockerfile
+    restart: always
+    depends_on:
+      rabbitmqServer:
+        condition: service_healthy
+    ports:
+      - 9000:9000
+    environment:
+      - PROD_NUM=2
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_WRITE_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_WRITE_KEY}
+      - BUCKET_ID=${BUCKET_ID}
+      - HOST=${HOST}
+      - PORT=${PORT}
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+      - REPO_URL=${REPO_URL}
+      - TOKEN=${TOKEN}
+      - URL_PATH_STORAGE=${URL_PATH_STORAGE}
+      - EXCHANGE=${EXCHANGE}
+      - EXCHANGE_TYPE=${EXCHANGE_TYPE}
+      - QUEUE_REQUEST=${QUEUE_REQUEST}
+      - QUEUE_RESPONSE=${QUEUE_RESPONSE}
+      - ROUTING_KEY_REQUEST=${ROUTING_KEY_REQUEST_CONSUMER}
+      - ROUTING_KEY_RESPONSE=${ROUTING_KEY_RESPONSE_CONSUMER}
+    volumes:
+      - ./rabbit_consumer/:/workspace/rabbit_consumer/
+    command: python3 /workspace/rabbit_consumer/rpc_consumer.py

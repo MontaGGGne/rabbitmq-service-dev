@@ -161,7 +161,7 @@ services:
     container_name: rmq_consumer_2
     build:
         context: .
-        dockerfile: ./rabbit_consumer/Dockerfile
+        dockerfile: ./rabbit_consumer/Dockerfile 
     restart: always
     depends_on:
       rabbitmqServer:

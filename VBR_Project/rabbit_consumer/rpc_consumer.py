@@ -13,6 +13,7 @@ logging.basicConfig(level=logging.INFO, filename=f"py_log_consumer_{os.environ.g
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 NEW_DIR_TIMEOUT = 5.0 # 6000.0
+BEGIN_DATETIME = '2024-06-01 00:00:00'
 
 KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
 SECRET_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
@@ -78,7 +79,7 @@ def main():
         logging.error(traceback.format_exc())
 
     try:
-        consumer_handler_res = consumer.consumer_handler(BUCKET_ID, NEW_DIR_TIMEOUT)
+        consumer_handler_res = consumer.consumer_handler(BUCKET_ID, NEW_DIR_TIMEOUT, BEGIN_DATETIME)
         # print(f"consumer_handler_res: {consumer_handler_res['basic_consume_res']}")
         logging.info(f"consumer_handler_res: {consumer_handler_res['basic_consume_res']}")
     except Exception as e:

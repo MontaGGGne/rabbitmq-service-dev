@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO, filename=f"py_log_producer_{os.environ.g
 CSV_FILES_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'csv_files')
 
 PROD_NUM=os.getenv('PROD_NUM')
-FILENAME=f"train_FD001.csv"
+FILENAME=f"trainfortest_FD001.csv"
 
 HOST=os.getenv('HOST')
 PORT=os.getenv('PORT')

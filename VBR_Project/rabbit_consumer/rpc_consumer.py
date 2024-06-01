@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO, filename=f"py_log_consumer_{os.environ.g
                     format="%(asctime)s %(levelname)s %(message)s")
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
-NEW_DIR_TIMEOUT = 6000.0
+NEW_DIR_TIMEOUT = 5.0 # 6000.0
 
 KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
 SECRET_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
